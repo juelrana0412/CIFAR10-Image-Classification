@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CIFAR-10 Image Classification</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="card shadow-lg border-0 rounded-4">
+
+                    <div class="card-body p-5">
+
+                        <h2 class="text-center fw-bold mb-2">
+
+                            <i class="bi bi-cpu-fill text-primary"></i>
+
+                            CIFAR-10 Image Classification
+
+                        </h2>
+
+                        <p class="text-center text-muted mb-4">
+
+                            Compare predictions using a Custom CNN and Swin Transformer.
+
+                        </p>
+
+                        <form
+                            action="{{ url_for('classify') }}"
+                            method="POST"
+                            enctype="multipart/form-data"
+                            id="predictionForm">
+
+                            <!-- Model -->
+
+                            <div class="mb-4">
+
+                                <label class="form-label fw-semibold">
+
+                                    Select Model
+
+                                </label>
+
+                                <select
+                                    class="form-select form-select-lg"
+                                    name="model"
+                                    required>
+
+                                    <option value="cnn"
+                                        {% if selected_model=="cnn" %}selected{% endif %}>
+
+                                        Custom CNN
+
+                                    </option>
+
+                                    <option value="swin"
+                                        {% if selected_model=="swin" %}selected{% endif %}>
+
+                                        Swin Transformer
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                            <!-- Upload -->
+
+                            <div class="mb-4">
+
+                                <label class="form-label fw-semibold">
+
+                                    Upload Image
+
+                                </label>
+
+                                <input
+                                    class="form-control form-control-lg"
+                                    type="file"
+                                    accept="image/*"
+                                    name="image"
+                                    id="imageInput"
+                                    required>
+
+                            </div>
+
+                            <!-- Preview -->
+
+                            <div class="text-center mb-4">
+
+                                <img
+                                    id="previewImage"
+                                    class="img-fluid rounded shadow"
+                                    style="max-height:300px; display:none;">
+
+                            </div>
+
+                            <!-- Button -->
+
+                            <div class="d-grid">
+
+                                <button
+                                    class="btn btn-primary btn-lg"
+                                    type="submit"
+                                    id="predictButton">
+
+                                    <i class="bi bi-magic"></i>
+
+                                    Predict
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                        <!-- Spinner -->
+
+                        <div
+                            id="loading"
+                            class="text-center mt-4"
+                            style="display:none;">
+
+                            <div
+                                class="spinner-border text-primary">
+
+                            </div>
+
+                            <p class="mt-3">
+
+                                Running prediction...
+
+                            </p>
+
+                        </div>
+
+                        {% if prediction %}
+
+                        <hr class="my-5">
+
+                        <h3 class="text-center fw-bold mb-4">
+
+                            Prediction Result
+
+                        </h3>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <img
+                                    src="{{ image_path }}"
+                                    class="img-fluid rounded shadow">
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="card border-success">
+
+                                    <div class="card-body">
+
+                                        <h5 class="text-success">
+
+                                            Prediction
+
+                                        </h5>
+
+                                        <h2>
+
+                                            {{ prediction }}
+
+                                        </h2>
+
+                                        <hr>
+
+                                        <h5>
+
+                                            Confidence
+
+                                        </h5>
+
+                                        <div class="progress mb-3"
+                                            style="height:30px;">
+
+                                            <div
+                                                class="progress-bar bg-success"
+                                                style="width:{{ confidence }}%;">
+
+                                                {{ confidence }}%
+
+                                            </div>
+
+                                        </div>
+
+                                        <h6>
+
+                                            Model Used
+
+                                        </h6>
+
+                                        <span
+                                            class="badge bg-primary fs-6">
+
+                                            {% if selected_model=="cnn" %}
+
+                                            Custom CNN
+
+                                            {% else %}
+
+                                            Swin Transformer
+
+                                            {% endif %}
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
