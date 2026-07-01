@@ -9,6 +9,7 @@ DEVICE = torch.device(
 )
 
 
+
 # CNN
 
 def load_cnn(model_path):

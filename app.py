@@ -6,6 +6,7 @@ from flask import (
     request
 )
 
+
 from werkzeug.utils import secure_filename
 
 from model_loader import (
