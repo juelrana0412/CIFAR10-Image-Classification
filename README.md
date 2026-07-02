@@ -3,9 +3,13 @@
 A Deep Learning web application for **CIFAR-10 Image Classification** using two different models:
 
 - Custom CNN
-- Swin Transformer (Swin-T)
+- Swin Transformer (Swin-T) using feature extraction
 
 The application is built with **PyTorch** and **Flask**, allowing users to upload an image and choose which model to use for prediction.
+
+Web app link:
+
+https://mdjuelrana-image-classification.hf.space/
 
 ---
 
@@ -28,16 +32,19 @@ The application is built with **PyTorch** and **Flask**, allowing users to uploa
 
 Classes:
 
-- Airplane
-- Automobile
-- Bird
-- Cat
-- Deer
-- Dog
-- Frog
-- Horse
-- Ship
-- Truck
+| Label | Class |
+|--------|--------|
+| 0 | Airplane |
+| 1 | Automobile |
+| 2 | Bird |
+| 3 | Cat |
+| 4 | Deer |
+| 5 | Dog |
+| 6 | Frog |
+| 7 | Horse |
+| 8 | Ship |
+| 9 | Truck |
+
 
 Dataset Download:
 
@@ -56,8 +63,12 @@ CIFAR10-Image-Classification/
 ├── class_names.py
 ├── requirements.txt
 ├── README.md
+├── Dockerfile
+├── .gitignore
 │
 ├── models/
+│   ├── cifar10_CNN_predictor.ipynb
+│   ├── cifar10_swin.ipynb
 │   ├── CNN.pth
 │   └── swin_model.pth
 │
@@ -73,7 +84,9 @@ CIFAR10-Image-Classification/
 │   │
 │   └── uploads/
 │
-└── notebooks/
+└── Interface/
+    ├── homepage.png
+    └── prediction_result.png
 ```
 
 ---
@@ -164,9 +177,32 @@ Open your browser
 ```
 http://127.0.0.1:5000
 ```
+---
+# Docker Deployment
+
+Build Docker image
+
+```bash
+docker build -t cifar10 .
+```
+
+Run
+
+```bash
+docker run -p 7860:7860 cifar10
+```
 
 ---
 
+# Hugging Face Deployment
+
+1. Create a Docker Space
+2. Upload project files
+3. Upload model files
+4. Wait for build
+5. Open the generated URL
+
+---
 # Using the Web App
 
 1. Select a model
@@ -187,6 +223,28 @@ The application will display
 - Predicted Class
 - Confidence Score
 - Selected Model
+
+---
+
+# Application Screenshots
+
+## Home Page
+
+The home page allows users to select the desired deep learning model, upload an image, and perform image classification.
+
+<p align="center">
+  <img src="Interface/homepage.png" alt="Home Page" width="900">
+</p>
+
+---
+
+## Prediction Result
+
+After selecting a model and uploading an image, the application predicts the image class and displays the confidence score.
+
+<p align="center">
+  <img src="Interface/prediction_result.png" alt="Prediction Result" width="900">
+</p>
 
 ---
 
@@ -261,8 +319,7 @@ torch.save(
 - Top-5 predictions
 - Drag & Drop upload
 - REST API
-- Docker support
-- Cloud deployment
+- Mobile Application
 
 ---
 
@@ -311,7 +368,6 @@ exists.
 # Author
 
 **Md. Juel Rana**
-
 
 GitHub:
 
